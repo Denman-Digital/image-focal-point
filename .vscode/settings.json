@@ -1,0 +1,4 @@
+{
+	"intelephense.environment.shortOpenTag": false,
+	"intelephense.environment.phpVersion": "8.1.0"
+}

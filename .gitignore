@@ -1,0 +1,10 @@
+node_modules
+
+## Uncomment line below if you prefer to
+## keep compiled files out of version control
+# dist/
+
+# /vendor/
+.DS_STORE
+.DS_Store
+.non_ES5_node_modules

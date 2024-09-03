@@ -1,0 +1,22 @@
+{
+	"name": "denmandigital/wp-image-focal-point",
+	"description": "Set background focus position for media images.",
+	"type": "project",
+	"authors": [
+		{
+			"name": "Paul Walton",
+			"email": "paul@denmandigital.com"
+		}
+	],
+	"require": {
+		"php": ">=8.1"
+	},
+	"require-dev": {
+		"php-stubs/wordpress-stubs": "^6.4",
+		"wp-cli/i18n-command": "^2.2.5"
+	},
+	"scripts": {
+		"lint": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
+		"make-pot": "wp i18n make-pot . wp-img-focal-point.pot --domain=wp-img-focal-point"
+	}
+}
