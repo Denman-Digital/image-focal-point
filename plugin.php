@@ -3,12 +3,12 @@
  /**
  * Plugin Name: WP Image Focal Point
  * Plugin URI: https://github.com/Denman-Digital/wp-image-focal-point
- * Update URI: gutestrap
+ * Update URI: wp-image-focal-point
  * Description: Set background focus position for media images.
  * Author: Denman Digital
  * Author URI: https://denman.digital/
- * Version: 1.1
- * Tested up to: 6.5
+ * Version: 2.1
+ * Tested up to: 6.6
  * Requires at least: 6.0
  * Requires PHP: 8.1
  * License: GPL2
@@ -44,7 +44,7 @@ require_once plugin_dir_path(__FILE__) . 'update.php';
  */
 function load_textdomain()
 {
-	load_plugin_textdomain('gutestrap', false, dirname(WPIFP_PLUGIN_BASENAME) . '/languages');
+	load_plugin_textdomain('wp-img-focal-point', false, dirname(WPIFP_PLUGIN_BASENAME) . '/languages');
 }
 add_action('init', __NAMESPACE__ . '\load_textdomain');
 

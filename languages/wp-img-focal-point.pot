@@ -1,0 +1,85 @@
+# Copyright (C) 2024 Denman Digital
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Image Focal Point 2.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/image-bg-position\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-03T20:27:57+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: wp-img-focal-point\n"
+
+#. Plugin Name of the plugin
+#: plugin.php
+msgid "WP Image Focal Point"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: plugin.php
+msgid "https://github.com/Denman-Digital/wp-image-focal-point"
+msgstr ""
+
+#. Description of the plugin
+#: plugin.php
+msgid "Set background focus position for media images."
+msgstr ""
+
+#. Author of the plugin
+#: plugin.php
+msgid "Denman Digital"
+msgstr ""
+
+#. Author URI of the plugin
+#: plugin.php
+msgid "https://denman.digital/"
+msgstr ""
+
+#: src/init.php:19
+msgid "Click on the image to set the focus point"
+msgstr ""
+
+#: src/init.php:20
+msgid "Cancel"
+msgstr ""
+
+#: src/init.php:21
+msgid "Save"
+msgstr ""
+
+#: src/init.php:22
+#: src/init.php:115
+msgid "Change"
+msgstr ""
+
+#: src/init.php:23
+#: src/init.php:116
+msgid "Set"
+msgstr ""
+
+#: src/init.php:24
+#: src/init.php:117
+msgid "Reset"
+msgstr ""
+
+#: src/init.php:25
+#: src/init.php:118
+msgid "Centered (default)"
+msgstr ""
+
+#: src/init.php:68
+msgid "Focal Point"
+msgstr ""
+
+#. translators: %s: link URL
+#: update.php:120
+msgid "<a href=\"%s\" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder."
+msgstr ""
+
+#: update.php:126
+msgid "Full list of releases"
+msgstr ""

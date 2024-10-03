@@ -1,13 +1,50 @@
+# Environment Configs
+.env
+
+# Creative/Reference
+*.fig
+*.psd
+*.ai
+*.afphoto*
+*.afdesign*
+*.zip
+
+## PHP Dev dependencies
+/vendor
+.intelephense.php
+
+## Sass
+.sass-cache
+
+## Node.js
+package-lock.json
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+pids
+logs
+results
+npm-debug.log
 node_modules
 
-## Uncomment line below if you prefer to
-## keep compiled files out of version control
-# dist/
-
-# /vendor/
-.DS_STORE
+## OS X
 .DS_Store
-.non_ES5_node_modules
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
 
-*.afdesign*
-*.afphoto*
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+~*.xlsx
+~*.docx

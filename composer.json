@@ -12,11 +12,11 @@
 		"php": ">=8.1"
 	},
 	"require-dev": {
-		"php-stubs/wordpress-stubs": "^6.4",
+		"php-stubs/wordpress-stubs": "^6.6",
 		"wp-cli/i18n-command": "^2.2.5"
 	},
 	"scripts": {
 		"lint": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
-		"make-pot": "wp i18n make-pot . wp-img-focal-point.pot --domain=wp-img-focal-point"
+		"make-pot": "wp i18n make-pot . \"wp-img-focal-point.pot\" --domain=\"wp-img-focal-point\""
 	}
 }
