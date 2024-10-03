@@ -8,3 +8,6 @@ node_modules
 .DS_STORE
 .DS_Store
 .non_ES5_node_modules
+
+*.afdesign*
+*.afphoto*
