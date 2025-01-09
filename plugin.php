@@ -1,9 +1,9 @@
 <?php
 
  /**
- * Plugin Name: WP Image Focal Point
- * Plugin URI: https://github.com/Denman-Digital/wp-image-focal-point
- * Update URI: wp-image-focal-point
+ * Plugin Name: Image Focal Point
+ * Plugin URI: https://github.com/Denman-Digital/image-focal-point
+ * Update URI: image-focal-point
  * Description: Set background focus position for media images.
  * Author: Denman Digital
  * Author URI: https://denman.digital/
@@ -13,12 +13,12 @@
  * Requires PHP: 8.1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: wp-img-focal-point
+ * Text Domain: img-focal-point
  * Domain Path: /languages/
- * @package wp-image-focal-point
+ * @package image-focal-point
  */
 
-namespace WP_Image_Focal_Point;
+namespace Image_Focal_Point;
 
 // Exit if accessed directly.
 defined('ABSPATH') ||	exit;
@@ -30,10 +30,10 @@ if (!defined("WP_DEBUG_LOG")) {
 	define("WP_DEBUG_LOG", false);
 }
 
-define("WPIFP_PLUGIN_BASENAME", plugin_basename(__FILE__));
-define("WPIFP_PLUGIN_FILE", basename(__FILE__));
-define("WPIFP_PLUGIN_URI", plugin_dir_url(__FILE__));
-define("WPIFP_PLUGIN_PATH", plugin_dir_path(__FILE__));
+define("IFP_PLUGIN_BASENAME", plugin_basename(__FILE__));
+define("IFP_PLUGIN_FILE", basename(__FILE__));
+define("IFP_PLUGIN_URI", plugin_dir_url(__FILE__));
+define("IFP_PLUGIN_PATH", plugin_dir_path(__FILE__));
 
 require_once plugin_dir_path(__FILE__) . 'src/init.php';
 
@@ -44,7 +44,7 @@ require_once plugin_dir_path(__FILE__) . 'update.php';
  */
 function load_textdomain()
 {
-	load_plugin_textdomain('wp-img-focal-point', false, dirname(WPIFP_PLUGIN_BASENAME) . '/languages');
+	load_plugin_textdomain('wp-img-focal-point', false, dirname(IFP_PLUGIN_BASENAME) . '/languages');
 }
 add_action('init', __NAMESPACE__ . '\load_textdomain');
 

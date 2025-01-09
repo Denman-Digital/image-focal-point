@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @package wp-image-focal-point
+ * @package image-focal-point
  */
 
-namespace WP_Image_Focal_Point;
+namespace Image_Focal_Point;
 
 use WP_Post;
 
@@ -16,13 +16,13 @@ function add_attachment_custom_field(array $form_fields, WP_Post $post): array
 	$field_value = get_post_meta($post->ID, 'focal_point', true) ?: '50% 50%';
 	$is_value_not_default = $field_value != '50% 50%';
 
-	$label_instructions = esc_html__("Click on the image to set the focus point", "wp-img-focal-point");
-	$label_cancel = esc_html__("Cancel", "wp-img-focal-point");
-	$label_save = esc_html__("Save", "wp-img-focal-point");
-	$label_change = esc_html__("Change", "wp-img-focal-point");
-	$label_set = esc_html__("Set", "wp-img-focal-point");
-	$label_reset = esc_html__("Reset", "wp-img-focal-point");
-	$label_default = esc_html__('Centered (default)', "wp-img-focal-point");
+	$label_instructions = esc_html__("Click on the image to set the focus point", "img-focal-point");
+	$label_cancel = esc_html__("Cancel", "img-focal-point");
+	$label_save = esc_html__("Save", "img-focal-point");
+	$label_change = esc_html__("Change", "img-focal-point");
+	$label_set = esc_html__("Set", "img-focal-point");
+	$label_reset = esc_html__("Reset", "img-focal-point");
+	$label_default = esc_html__('Centered (default)', "img-focal-point");
 
 	$html = "
 			<input type='hidden' value='$field_value'	id='focal_point_hidden_input' name='attachments[$post->ID][focal_point]'>
@@ -32,8 +32,8 @@ function add_attachment_custom_field(array $form_fields, WP_Post $post): array
 						<div class='wrapp'>
 							<h3>$label_instructions</h3>
 							<div class='controls'>
-								<span class='button button-secondary' onclick='WP_Image_Focal_Point.cancelFocus()'>$label_cancel</span>
-								<span class='button button-primary' onclick='WP_Image_Focal_Point.closeOverlay()'>$label_save</span>
+								<span class='button button-secondary' onclick='Image_Focal_Point.cancelFocus()'>$label_cancel</span>
+								<span class='button button-primary' onclick='Image_Focal_Point.closeOverlay()'>$label_save</span>
 							</div>
 						</div>
 					</div>
@@ -51,13 +51,13 @@ function add_attachment_custom_field(array $form_fields, WP_Post $post): array
 					type='button'
 					id='focal-point-set'
 					class='button button-small'
-					onclick='WP_Image_Focal_Point.setFocus()'
+					onclick='Image_Focal_Point.setFocus()'
 					value='" . ($is_value_not_default ? $label_change : $label_set) . "'>
 				<input
 					type='button'
 					id='focal-point-reset'
 					class='close button button-small " . ($is_value_not_default ? '' : 'button-disabled') . "'
-					onclick='WP_Image_Focal_Point.resetFocus()'
+					onclick='Image_Focal_Point.resetFocus()'
 					value='$label_reset'" .
 		($is_value_not_default ? '' : 'aria-disabled="true"') . ">
 			</div>
@@ -65,7 +65,7 @@ function add_attachment_custom_field(array $form_fields, WP_Post $post): array
 
 	$form_fields['background_postion_desktop'] = array(
 		'value' => $field_value ?: '',
-		'label' => __('Focal Point', "wp-img-focal-point"),
+		'label' => __('Focal Point', "img-focal-point"),
 		'helps' => __(''),
 		'input'  => 'html',
 		'html' => $html
@@ -108,14 +108,14 @@ add_filter('wp_get_attachment_image_attributes', __NAMESPACE__ . '\filter_attach
  */
 function enqueue_admin_scripts()
 {
-	wp_enqueue_style('wp-image-focal-point-css', WPIFP_PLUGIN_URI . '/src/admin.css?_=1' . time());
-	wp_enqueue_script('wp-image-focal-point-js', WPIFP_PLUGIN_URI . '/src/script.js?_=1' . time(), ["jquery"]);
-	wp_localize_script("wp-image-focal-point-js", __NAMESPACE__, [
+	wp_enqueue_style('image-focal-point-css', IFP_PLUGIN_URI . '/src/admin.css?_=1' . time());
+	wp_enqueue_script('image-focal-point-js', IFP_PLUGIN_URI . '/src/script.js?_=1' . time(), ["jquery"]);
+	wp_localize_script("image-focal-point-js", __NAMESPACE__, [
 		"labels" => [
-			"change" => esc_html__("Change", "wp-img-focal-point"),
-			"set" => esc_html__("Set", "wp-img-focal-point"),
-			"reset" => esc_html__("Reset", "wp-img-focal-point"),
-			"default" => esc_html__('Centered (default)', "wp-img-focal-point"),
+			"change" => esc_html__("Change", "img-focal-point"),
+			"set" => esc_html__("Set", "img-focal-point"),
+			"reset" => esc_html__("Reset", "img-focal-point"),
+			"default" => esc_html__('Centered (default)', "img-focal-point"),
 		]
 	]);
 }

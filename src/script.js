@@ -1,4 +1,4 @@
-(function ($, WP_Image_Focal_Point) {
+(function ($, Image_Focal_Point) {
 	let focalX = null;
 	let focalY = null;
 
@@ -26,11 +26,11 @@
 
 		if (focalX != 50 && focalY != 50) {
 			$valueHolder.html(`${focalX}% ${focalY}%`);
-			$updateBtn.attr("value", WP_Image_Focal_Point.labels.change);
+			$updateBtn.attr("value", Image_Focal_Point.labels.change);
 			$resetBtn.removeClass("button-disabled").attr("aria-disabled", null);
 		} else {
-			$valueHolder.html(WP_Image_Focal_Point.labels.default);
-			$updateBtn.attr("value", WP_Image_Focal_Point.labels.set);
+			$valueHolder.html(Image_Focal_Point.labels.default);
+			$updateBtn.attr("value", Image_Focal_Point.labels.set);
 			$resetBtn.addClass("button-disabled").attr("aria-disabled", "true");
 		}
 	}
@@ -62,8 +62,8 @@
 		$pin.css({ left: `${focalX}%`, top: `${focalY}%` });
 	});
 
-	WP_Image_Focal_Point.setFocus = setFocus;
-	WP_Image_Focal_Point.resetFocus = resetFocus;
-	WP_Image_Focal_Point.cancelFocus = cancelFocus;
-	WP_Image_Focal_Point.closeOverlay = closeOverlay;
-})(jQuery, WP_Image_Focal_Point);
+	Image_Focal_Point.setFocus = setFocus;
+	Image_Focal_Point.resetFocus = resetFocus;
+	Image_Focal_Point.cancelFocus = cancelFocus;
+	Image_Focal_Point.closeOverlay = closeOverlay;
+})(jQuery, Image_Focal_Point);

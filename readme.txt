@@ -1,4 +1,4 @@
-=== WP Image Focal Point ===
+=== Image Focal Point ===
 Contributors: paulthewalton
 Tags: image,img,focus,focal,point
 Requires at least: 6.0

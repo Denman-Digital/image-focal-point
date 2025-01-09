@@ -1,5 +1,5 @@
 {
-	"name": "denmandigital/wp-image-focal-point",
+	"name": "denmandigital/image-focal-point",
 	"description": "Set background focus position for media images.",
 	"type": "project",
 	"authors": [
@@ -17,6 +17,6 @@
 	},
 	"scripts": {
 		"lint": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
-		"make-pot": "wp i18n make-pot . \"wp-img-focal-point.pot\" --domain=\"wp-img-focal-point\""
+		"make-pot": "wp i18n make-pot . \"img-focal-point.pot\" --domain=\"img-focal-point\""
 	}
 }
