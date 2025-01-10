@@ -133,6 +133,23 @@ function filter_attachment_image_attributes(array $attrs, WP_Post $attachment): 
 add_filter('wp_get_attachment_image_attributes', __NAMESPACE__ . '\filter_attachment_image_attributes', 10, 2);
 
 /**
+ * Integrate this plugin with ACF image field results
+ * @param string|array $value Field value.
+ * @param mixed $_post_id Post ID (unused).
+ * @param array $field Field settings.
+ * @return string|array Field value
+ */
+function filter_acf_integrate_image_focal_point($value, $_post_id, array $field)
+{
+	if (is_array($value) && $field["return_format"] === "array") {
+		$value[IFP_POST_META_KEY] = get_focal_point_post_meta($value["ID"]);
+	}
+	return $value;
+}
+add_filter("acf/format_value/type=image", __NAMESPACE__ . '\filter_acf_integrate_image_focal_point', 10, 3);
+
+
+/**
  * Enqueue script in Admin
  */
 function enqueue_admin_scripts()
