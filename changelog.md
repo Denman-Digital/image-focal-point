@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.3.1
+
+- fix: filter priority for ACF Image field formatting
+- fix: changelog markdown formatting
+
 ## v2.3.0
 
 - new: added "focal\_point" to ACF Image fields that return an array
