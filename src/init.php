@@ -36,6 +36,9 @@ function get_focal_point_post_meta(int $attachment_id): string
  */
 function filter_add_attachment_custom_field(array $form_fields, WP_Post $post): array
 {
+	if (!wp_attachment_is_image($post)) {
+		return $form_fields;
+	}
 	$field_value = get_focal_point_post_meta($post->ID);
 	$is_value_not_default = $field_value != '50% 50%';
 
