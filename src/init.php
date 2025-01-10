@@ -11,9 +11,32 @@ use WP_Post;
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
 
-function add_attachment_custom_field(array $form_fields, WP_Post $post): array
+define("IFP_POST_META_KEY_LEGACY", "bg_pos_desktop");
+define("IFP_POST_META_KEY", "focal_point");
+
+/**
+ * Get focal point for an attachment
+ * @param int $attachment_id
+ * @return string
+ */
+function get_focal_point_post_meta(int $attachment_id): string
 {
-	$field_value = get_post_meta($post->ID, 'focal_point', true) ?: '50% 50%';
+	$value = get_post_meta($attachment_id, IFP_POST_META_KEY, true) ?: get_post_meta($attachment_id, IFP_POST_META_KEY_LEGACY, true);
+	if (!$value || !is_string($value)) {
+		$value = '50% 50%';
+	}
+	return $value;
+}
+
+/**
+ * Build custom field for entry.
+ * @param array $form_fields
+ * @param WP_Post $post
+ * @return array
+ */
+function filter_add_attachment_custom_field(array $form_fields, WP_Post $post): array
+{
+	$field_value = get_focal_point_post_meta($post->ID);
 	$is_value_not_default = $field_value != '50% 50%';
 
 	$label_instructions = esc_html__("Click on the image to set the focus point", "img-focal-point");
@@ -73,14 +96,17 @@ function add_attachment_custom_field(array $form_fields, WP_Post $post): array
 
 	return $form_fields;
 }
-add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\add_attachment_custom_field', null, 2);
+add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\filter_add_attachment_custom_field', null, 2);
 
 //save custom media field
 function save_attachment_custom_field(string|int $attachment_id)
 {
-	if (isset($_REQUEST['attachments'][$attachment_id]['focal_point'])) {
-		$focal_point = $_REQUEST['attachments'][$attachment_id]['focal_point'];
-		update_post_meta($attachment_id, 'focal_point', $focal_point);
+	if (isset($_REQUEST['attachments'][$attachment_id][IFP_POST_META_KEY])) {
+		$focal_point = $_REQUEST['attachments'][$attachment_id][IFP_POST_META_KEY];
+		update_post_meta($attachment_id, IFP_POST_META_KEY, $focal_point);
+		if (get_post_meta($attachment_id, IFP_POST_META_KEY_LEGACY, true)) {
+			delete_post_meta($attachment_id, IFP_POST_META_KEY_LEGACY);
+		}
 	}
 }
 add_action('edit_attachment', __NAMESPACE__ . '\save_attachment_custom_field');
@@ -97,8 +123,8 @@ function filter_attachment_image_attributes(array $attrs, WP_Post $attachment): 
 	if ($styles) {
 		$styles .= ";";
 	}
-	$focal_point = get_post_meta($attachment->ID, "focal_point", true);
-	$attrs["style"] = $styles . "object-position:" . ((string) $focal_point ?: "50% 50%") . ";";
+	$focal_point = get_focal_point_post_meta($attachment->ID);
+	$attrs["style"] = $styles . "object-position:$focal_point;";
 	return $attrs;
 }
 add_filter('wp_get_attachment_image_attributes', __NAMESPACE__ . '\filter_attachment_image_attributes', 10, 2);
