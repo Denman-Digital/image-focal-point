@@ -16,6 +16,7 @@ define("IFP_POST_META_KEY", "focal_point");
 
 /**
  * Get focal point for an attachment
+ * @since 2.3.0
  * @param int $attachment_id
  * @return string
  */
@@ -101,7 +102,11 @@ function filter_add_attachment_custom_field(array $form_fields, WP_Post $post): 
 }
 add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\filter_add_attachment_custom_field', null, 2);
 
-//save custom media field
+/**
+ * Save custom field data
+ * @param string|int $attachment_id
+ * @return void
+ */
 function save_attachment_custom_field(string|int $attachment_id)
 {
 	if (isset($_REQUEST['attachments'][$attachment_id][IFP_POST_META_KEY])) {
@@ -133,7 +138,9 @@ function filter_attachment_image_attributes(array $attrs, WP_Post $attachment): 
 add_filter('wp_get_attachment_image_attributes', __NAMESPACE__ . '\filter_attachment_image_attributes', 10, 2);
 
 /**
- * Integrate this plugin with ACF image field results
+ * Integrate this plugin with ACF image field results.
+ * * Priority must be >10 as of ACF 6.3.11
+ * @since 2.3.0
  * @param string|array $value Field value.
  * @param mixed $_post_id Post ID (unused).
  * @param array $field Field settings.
@@ -146,7 +153,7 @@ function filter_acf_integrate_image_focal_point($value, $_post_id, array $field)
 	}
 	return $value;
 }
-add_filter("acf/format_value/type=image", __NAMESPACE__ . '\filter_acf_integrate_image_focal_point', 10, 3);
+add_filter("acf/format_value/type=image", __NAMESPACE__ . '\filter_acf_integrate_image_focal_point', 11, 3);
 
 
 /**
