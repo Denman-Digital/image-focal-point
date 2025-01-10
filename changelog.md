@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.1
+
+- added remote changelog
+- fixed some broken links/resources/text-domains
+
 ## v2.2
 
 - removed "WP" from names, assets, and URLs
