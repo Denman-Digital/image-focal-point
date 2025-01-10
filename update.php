@@ -195,7 +195,7 @@ class Image_Focal_Point_Update
 			.denman-plugin-changelog {
 				float: left;
 				width: 100%;
-				margin-bottom: 40px;
+				margin-bottom: 66px;
 			}
 			.denman-plugin-changelog h1,
 			.denman-plugin-changelog h2,
