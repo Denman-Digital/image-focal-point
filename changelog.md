@@ -7,9 +7,9 @@
 
 ## v2.3.0
 
-- new: added "focal\_point" to ACF Image fields that return an array
+- new: integrate with output for ACF Image fields that return an array
 - fix: only show Focal Point field for Image attachments
-- fix: handle legacy "bg\_pos\_desktop" meta key
+- fix: handle legacy meta key
 
 ## v2.2.1
 
