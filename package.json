@@ -26,6 +26,7 @@
 		"Firefox ESR"
 	],
 	"scripts": {
-		"translate": "composer run make-pot"
+		"translate": "composer run make-pot",
+		"build:dist": "composer install --no-dev"
 	}
 }

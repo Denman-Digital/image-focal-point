@@ -9,6 +9,8 @@
 
 namespace Image_Focal_Point;
 
+use function Denman_Utils\v2\mini_markdown_parse;
+
 class Image_Focal_Point_Update
 {
 	private static $instance = null;
@@ -21,11 +23,12 @@ class Image_Focal_Point_Update
 
 	private function __construct()
 	{
-		$this->remote_plugin_endpoint_base = "https://raw.githubusercontent.com/Denman-Digital/wp-image-focal-point/{$this->repo_version_branch}/";
-		add_filter("update_plugins_wp-image-focal-point", [$this, "update_plugins_image_focal_point_data"], 10, 1);
+		$this->remote_plugin_endpoint_base = "https://raw.githubusercontent.com/Denman-Digital/image-focal-point/{$this->repo_version_branch}/";
+		add_filter("update_plugins_image-focal-point", [$this, "update_plugins_image_focal_point_data"], 10, 1);
 		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
 		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
 		add_filter("upgrader_post_install",  [$this, "post_install"], 10, 3);
+		add_action('admin_head', [$this, "custom_admin_styles"]);
 	}
 
 	public static function instance(): Image_Focal_Point_Update
@@ -41,13 +44,13 @@ class Image_Focal_Point_Update
 		$remote_plugin_data = get_plugin_data($this->remote_plugin_endpoint_base . IFP_PLUGIN_FILE);
 		if (!$remote_plugin_data) return [];
 		return [
-			"slug" => "wp-image-focal-point",
+			"slug" => "image-focal-point",
 			"plugin" => IFP_PLUGIN_BASENAME,
 			"name" => $remote_plugin_data["Name"],
 			"version" => $remote_plugin_data["Version"],
 			"new_version" => $remote_plugin_data["Version"],
 			"url" => $remote_plugin_data["PluginURI"],
-			"package" => "https://github.com/Denman-Digital/wp-image-focal-point/archive/{$this->repo_version_branch}.zip",
+			"package" => "https://github.com/Denman-Digital/image-focal-point/archive/{$this->repo_version_branch}.zip",
 			"requires" => $remote_plugin_data["RequiresWP"],
 			"require_php" => $remote_plugin_data["RequiresPHP"],
 			"author" => $remote_plugin_data["Author"],
@@ -62,6 +65,26 @@ class Image_Focal_Point_Update
 			]
 		];
 	}
+
+		/**
+	 * Get and parse changelog.md
+	 * @since 2.2.8
+	 * @return string
+	 */
+	public function get_remote_changelog(): string
+	{
+		// file_get_contents( $file, false, null, 0,
+		$remote_changelog = file_get_contents($this->remote_plugin_endpoint_base . "changelog.md", false, null, 0, 8 * KB_IN_BYTES);
+		if (!$remote_changelog) return $this->remote_plugin_endpoint_base . "changelog.md";
+
+		$remote_changelog = mini_markdown_parse($remote_changelog);
+
+		return sprintf(
+			"<div class='denman-plugin-changelog'>%s</div>",
+			$remote_changelog
+		);
+	}
+
 
 	public function update_plugins_image_focal_point_data($value)
 	{
@@ -101,7 +124,7 @@ class Image_Focal_Point_Update
 
 	function modify_plugin_details($result, $action = null, $args = null)
 	{
-		if (!isset($args->slug) || $args->slug !== "wp-image-focal-point" || $action !== 'plugin_information') {
+		if (!isset($args->slug) || $args->slug !== "image-focal-point" || $action !== 'plugin_information') {
 			return $result;
 		}
 		$result = $this->get_remote_plugin_data();
@@ -113,18 +136,24 @@ class Image_Focal_Point_Update
 
 		$result = (object) $result;
 
+		$changelog = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url("https://github.com/Denman-Digital/image-focal-point/releases"),
+			__("Full list of releases", "image-focal-point")
+		);
+
+		if ($remote_changelog = $this->get_remote_changelog()) {
+			$changelog .= $remote_changelog;
+		}
+
 		$sections = [
 			'description' => $local_data["Description"],
 			'installation' => sprintf(
 				// translators: %s: link URL
-				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "wp-img-focal-point"),
-				esc_url("https://github.com/Denman-Digital/wp-image-focal-point/archive/{$this->repo_version_branch}.zip")
+				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "img-focal-point"),
+				esc_url("https://github.com/Denman-Digital/image-focal-point/archive/{$this->repo_version_branch}.zip")
 			),
-			'changelog' => sprintf(
-				'<a href="%s">%s</a>',
-				esc_url("https://github.com/Denman-Digital/wp-image-focal-point/releases"),
-				__("Full list of releases", "wp-img-focal-point"),
-			),
+			'changelog' => $changelog,
 		];
 		$result->sections = $sections;
 		return $result;
@@ -154,6 +183,30 @@ class Image_Focal_Point_Update
 			}
 		}
 		return $response;
+	}
+
+		/**
+	 * Admin styles.
+	 */
+	function custom_admin_styles()
+	{
+		?>
+		<style>
+			.denman-plugin-changelog {
+				float: left;
+				width: 100%;
+			}
+			.denman-plugin-changelog h1,
+			.denman-plugin-changelog h2,
+			.denman-plugin-changelog h3,
+			.denman-plugin-changelog h4,
+			.denman-plugin-changelog h5,
+			.denman-plugin-changelog h6 {
+				margin: 0.25em 0;
+				clear: none;
+			}
+		</style>
+		<?php
 	}
 }
 

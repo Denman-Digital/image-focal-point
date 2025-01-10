@@ -44,7 +44,7 @@ require_once plugin_dir_path(__FILE__) . 'update.php';
  */
 function load_textdomain()
 {
-	load_plugin_textdomain('wp-img-focal-point', false, dirname(IFP_PLUGIN_BASENAME) . '/languages');
+	load_plugin_textdomain('img-focal-point', false, dirname(IFP_PLUGIN_BASENAME) . '/languages');
 }
 add_action('init', __NAMESPACE__ . '\load_textdomain');
 

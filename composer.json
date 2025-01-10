@@ -9,12 +9,19 @@
 		}
 	],
 	"require": {
-		"php": ">=8.1"
+		"php": ">=8.1",
+		"denman-digital/wp-utils": "^2.0"
 	},
 	"require-dev": {
 		"php-stubs/wordpress-stubs": "^6.6",
 		"wp-cli/i18n-command": "^2.2.5"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Denman-Digital/wp-utils"
+		}
+	],
 	"scripts": {
 		"lint": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor .",
 		"make-pot": "wp i18n make-pot . \"img-focal-point.pot\" --domain=\"img-focal-point\""
