@@ -138,6 +138,23 @@ function filter_attachment_image_attributes(array $attrs, WP_Post $attachment): 
 add_filter('wp_get_attachment_image_attributes', __NAMESPACE__ . '\filter_attachment_image_attributes', 10, 2);
 
 /**
+ * Add object position to images for REST
+ * @param array $response
+ * @param WP_Post $attachment
+ * @return array
+ */
+function filter_wp_prepare_attachment_for_js(array $response, WP_Post $attachment): array
+{
+	if (!wp_attachment_is_image($attachment)) {
+		return $response;
+	}
+	$focal_point = get_focal_point_post_meta($attachment->ID);
+	$response[IFP_POST_META_KEY] = $focal_point;
+	return $response;
+}
+add_filter('wp_prepare_attachment_for_js', __NAMESPACE__ . '\filter_wp_prepare_attachment_for_js', 10, 2);
+
+/**
  * Integrate this plugin with ACF image field results.
  * * Priority must be >10 as of ACF 6.3.11
  * @since 2.3.0
