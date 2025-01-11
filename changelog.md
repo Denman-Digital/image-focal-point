@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.2
+
+- new: integrate focal point into REST response output
+
 ## v2.3.1
 
 - fix: filter priority for ACF Image field formatting
