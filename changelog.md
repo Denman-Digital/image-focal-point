@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.3
+
+- fix: properly load utils for sites not using other Denman plugins or themes
+
 ## v2.3.2
 
 - new: integrate focal point into REST response output
