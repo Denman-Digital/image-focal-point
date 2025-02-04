@@ -35,6 +35,8 @@ define("IFP_PLUGIN_FILE", basename(__FILE__));
 define("IFP_PLUGIN_URI", plugin_dir_url(__FILE__));
 define("IFP_PLUGIN_PATH", plugin_dir_path(__FILE__));
 
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+
 require_once plugin_dir_path(__FILE__) . 'src/init.php';
 
 require_once plugin_dir_path(__FILE__) . 'update.php';
