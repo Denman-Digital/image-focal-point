@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.4
+
+- new: support ACF gallery fields that return an array
+
 ## v2.3.3
 
 - fix: properly load utils for sites not using other Denman plugins or themes
