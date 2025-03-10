@@ -155,22 +155,19 @@ function filter_wp_prepare_attachment_for_js(array $response, WP_Post $attachmen
 add_filter('wp_prepare_attachment_for_js', __NAMESPACE__ . '\filter_wp_prepare_attachment_for_js', 10, 2);
 
 /**
- * Integrate this plugin with ACF image field results.
+ * Integrate this plugin with ACF Image & Gallery field results.
  * * Priority must be >10 as of ACF 6.3.11
  * @since 2.3.0
- * @param string|array $value Field value.
- * @param mixed $_post_id Post ID (unused).
- * @param array $field Field settings.
- * @return string|array Field value
+ * @since 2.3.4 Support for Gallery fields by targeting acf_get_attachment ACF API helper.
+ * @param array $value acf_get_attachment response.
+ * @return array Field value
  */
-function filter_acf_integrate_image_focal_point($value, $_post_id, array $field)
+function filter_acf_image_integrate_image_focal_point(array $value): array
 {
-	if (is_array($value) && $field["return_format"] === "array") {
-		$value[IFP_POST_META_KEY] = get_focal_point_post_meta($value["ID"]);
-	}
+	$value[IFP_POST_META_KEY] = get_focal_point_post_meta($value["ID"]);
 	return $value;
 }
-add_filter("acf/format_value/type=image", __NAMESPACE__ . '\filter_acf_integrate_image_focal_point', 11, 3);
+add_filter("acf/load_attachment", __NAMESPACE__ . '\filter_acf_image_integrate_image_focal_point', 11, 3);
 
 
 /**
