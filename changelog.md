@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.5
+
+- fix: update PHP dependencies
+
 ## v2.3.4
 
 - new: support ACF gallery fields that return an array
