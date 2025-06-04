@@ -3,7 +3,7 @@
         'name' => 'denmandigital/image-focal-point',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '30ced36d1790b9f4b5dd928af7d95de787537fda',
+        'reference' => 'fb93e02902a29a25073768a232d96f9e2c3e4125',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'denman-digital/wp-utils' => array(
-            'pretty_version' => '2.0.2',
-            'version' => '2.0.2.0',
-            'reference' => '035178c046600ba67045e2925fb8ffc683527210',
+            'pretty_version' => '2.0.4',
+            'version' => '2.0.4.0',
+            'reference' => 'f81c860ecac6f8ae383c32a2165de0f2e5fc9a00',
             'type' => 'library',
             'install_path' => __DIR__ . '/../denman-digital/wp-utils',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'denmandigital/image-focal-point' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '30ced36d1790b9f4b5dd928af7d95de787537fda',
+            'reference' => 'fb93e02902a29a25073768a232d96f9e2c3e4125',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

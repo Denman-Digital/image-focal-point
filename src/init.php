@@ -167,7 +167,7 @@ function filter_acf_image_integrate_image_focal_point(array $value): array
 	$value[IFP_POST_META_KEY] = get_focal_point_post_meta($value["ID"]);
 	return $value;
 }
-add_filter("acf/load_attachment", __NAMESPACE__ . '\filter_acf_image_integrate_image_focal_point', 11, 3);
+add_filter("acf/load_attachment", __NAMESPACE__ . '\filter_acf_image_integrate_image_focal_point', 11);
 
 
 /**

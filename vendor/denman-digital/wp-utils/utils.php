@@ -390,45 +390,41 @@ function array_nth(array $array, int $n): mixed
 	return array_values($array)[$n >= 0 ? $n : $length + $n];
 }
 
-if (!function_exists('array_some')) {
-	/**
-	 * Check if any entry in an array satisfies the callback.
-	 * @since 1.0.0
-	 * @param array $array
-	 * @param callable $callback Validation callback.
-	 * @param int $callback_args_count Optional. Number of arguments to pass to $callback. Default and maximum is 3.
-	 * @return bool
-	 */
-	function array_some(array $array, callable $callback, int $callback_args_count = 3): bool
-	{
-		foreach ($array as $key => $value) {
-			if (call_user_func_array($callback, array_slice([$value, $key, $array], 0, $callback_args_count))) {
-				return true;
-			}
+/**
+ * Check if any entry in an array satisfies the callback.
+ * @since 1.0.0
+ * @param array $array
+ * @param callable $callback Validation callback.
+ * @param int $callback_args_count Optional. Number of arguments to pass to $callback. Default and maximum is 3.
+ * @return bool
+ */
+function array_some(array $array, callable $callback, int $callback_args_count = 3): bool
+{
+	foreach ($array as $key => $value) {
+		if (call_user_func_array($callback, array_slice([$value, $key, $array], 0, $callback_args_count))) {
+			return true;
 		}
-		return false;
 	}
+	return false;
 }
 
-if (!function_exists('array_find')) {
-	/**
-	 * Get the first entry in an array that satisfies the callback.
-	 * @since 1.2.0 Returns empty array instead of null if no entry satisfies callback
-	 * @since 1.0.0
-	 * @param array $array
-	 * @param callable $callback Validation callback. Is passed the value, key, and full array for each entry checked.
-	 * @param int $callback_args_count Optional. Number of arguments to pass to $callback. Default and maximum is 3.
-	 * @return array
-	 */
-	function array_find(array $array, callable $callback, int $callback_args_count = 3): array
-	{
-		foreach ($array as $key => $value) {
-			if (call_user_func_array($callback, array_slice([$value, $key, $array], 0, $callback_args_count))) {
-				return ["key" => $key, "value" => $value];
-			}
+/**
+ * Get the first entry in an array that satisfies the callback.
+ * @since 1.2.0 Returns empty array instead of null if no entry satisfies callback
+ * @since 1.0.0
+ * @param array $array
+ * @param callable $callback Validation callback. Is passed the value, key, and full array for each entry checked.
+ * @param int $callback_args_count Optional. Number of arguments to pass to $callback. Default and maximum is 3.
+ * @return array
+ */
+function array_find(array $array, callable $callback, int $callback_args_count = 3): array
+{
+	foreach ($array as $key => $value) {
+		if (call_user_func_array($callback, array_slice([$value, $key, $array], 0, $callback_args_count))) {
+			return ["key" => $key, "value" => $value];
 		}
-		return [];
 	}
+	return [];
 }
 
 /**
@@ -938,7 +934,7 @@ function resolve_post($post = null, string $post_type = "")
  * @param WP_Taxonomy|string $taxonomy Variable to be resolved to a taxonomy.
  * @return ?WP_Taxonomy
  */
-function resolve_taxonomy($taxonomy): ?WP_Taxonomy
+function resolve_taxonomy($taxonomy)
 {
 	if (is_string($taxonomy)) {
 		$taxonomy = get_taxonomy($taxonomy);
@@ -1481,17 +1477,15 @@ function flatten_blocklist(array $blocklist): array
 	}, []);
 }
 
-if (!function_exists('esc_regex')) {
-	/**
-	 * Escape a regex string
-	 * @since 1.0.0
-	 * @param string $str
-	 * @return string
-	 */
-	function esc_regex(string $str): string
-	{
-		return preg_replace('/([^\w])/', '\\\$0', $str);
-	}
+/**
+ * Escape a regex string
+ * @since 1.0.0
+ * @param string $str
+ * @return string
+ */
+function esc_regex(string $str): string
+{
+	return preg_replace('/([^\w])/', '\\\$0', $str);
 }
 
 /**
@@ -1663,27 +1657,40 @@ function do_actions_sequence(array $hooks, ...$args): void
 /**
  * Get the domain of a URL.
  * @since 1.1.0
- * @param string $url
+ * @since 2.0.3 added $include_subdomains param.
+ * @param string $url The URL to parse.
+ * @param bool|int $include_subdomains The max number of subdomains allowed. Set boolean `true` to allow up to (almost) PHP_INT_MAX subdomains.
  * @return string
  */
-function get_domain_of_url(string $url): string
+function get_domain_of_url(string $url, bool|int $include_subdomains = false): string
 {
-	return implode(".", array_slice(explode(".", parse_url($url)["host"]), -2));
+	$host = parse_url($url, PHP_URL_HOST);
+	if (empty($host)) return "";
+	// get the number of allowable subdomains
+	$include_subdomains = $include_subdomains === true ? PHP_INT_MAX - 2 : min_max(intval($include_subdomains), 0, PHP_INT_MAX - 2);
+	return implode(".", array_slice(explode(".", $host), -1 * ($include_subdomains + 2)));
 }
 
 /**
  * Check if a URL is (most likely) to go to an external resource.
  * @since 1.1.0
- * @param string $url
+ * @since 2.0.3 added $allow_subdomains param.
+ * @param string $url The URL to parse.
+ * @param bool $allow_subdomains Whether to treat different subdomains as local or external to each other.
  * @return bool
  */
-function is_link_external(string $url): bool
+function is_link_external(string $url, bool $allow_subdomains = true): bool
 {
-	$url_components = parse_url($url);
-	if (empty($url_components['host'])) return false;  // we will treat url like '/relative.php' as relative
-	$domain = get_domain_of_url(get_bloginfo("url"));
-	if (strcasecmp($url_components['host'], $domain) === 0) return false; // url host looks exactly like the local host
-	return strrpos(strtolower($url_components['host']), ".$domain") !== strlen($url_components['host']) - strlen(".$domain"); // check if the url host is a subdomain
+	$url_domain = get_domain_of_url($url, true);
+	if (empty($url_domain)) return false;  // we will treat any url without an explicit domain as relative, ie: not external
+
+	$local_domain = get_domain_of_url(get_bloginfo("url"), $allow_subdomains);
+	if (strcasecmp($url_domain, $local_domain) === 0) return false; // url domain matches the local domain, ie: not external
+	if ($allow_subdomains) {
+		return (strrpos(strtolower($url_domain), ".$local_domain") !== strlen($url_domain) - strlen(".$local_domain")); // check if the url domain is a subdomain of the local domain
+	} else {
+		return strcasecmp($url_domain, "www.$local_domain") !== 0; // check if url domain uses "www" subdomain of local domain, ie: not external
+	}
 }
 
 /**
@@ -1783,12 +1790,14 @@ function rgba_str_to_rgba_array(string $rgba_str): array
 
 /**
  * Calculate the approximate luma value of an RGB color.
+ * @deprecated 2.0.3
  * @since 1.1.3
  * @param string|array $rgba
  * @return float
  */
 function rgba_to_luma(string|array $rgba): float
 {
+	_deprecated_function("Denman_Utils\\v2\\rgba_to_luma", "Denman_Utils v2.0.3", "Denman_Utils\\v2\\rgba_to_luminance");
 	if (is_string($rgba)) {
 		$rgba = rgba_str_to_rgba_array($rgba);
 	}
@@ -1807,6 +1816,33 @@ function rgba_to_luma(string|array $rgba): float
 	return (float) $rgba["red"] * 0.2126 + $rgba["green"] * 0.7152 +
 		$rgba["blue"] * 0.0722;
 }
+
+/**
+ * Calculate the approximate luminance value of an RGBA color
+ * @param string|array $rgba
+ * @return float
+ */
+function rgba_to_luminance(string|array $rgba): float
+{
+	if (is_string($rgba)) {
+		$rgba = rgba_str_to_rgba_array($rgba);
+	}
+	$rgba_linearized = [];
+	foreach ($rgba as $channel => $value) {
+		$value = $value / 255;
+		if ($value < 0.04045) {
+			$value = $value / 12.92;
+		} else {
+			$value = ($value + 0.055) / 1.055;
+			$value = pow($value, 2.4);
+		}
+		$rgba_linearized[$channel] = $value;
+	}
+
+	return (float) $rgba_linearized["red"] * 0.2126 + $rgba_linearized["green"] * 0.7152 +
+		$rgba_linearized["blue"] * 0.0722;
+}
+
 
 /**
  * Assert an array of RGBA color information to be a sequentially indexed array.
