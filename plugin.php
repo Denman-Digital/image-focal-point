@@ -7,7 +7,7 @@
  * Description: Set background focus position for media images.
  * Author: PS & Co
  * Author URI: https://psandco.ca/
- * Version: 2.3.7
+ * Version: 2.3.8
  * Tested up to: 6.8
  * Requires at least: 6.0
  * Requires PHP: 8.1

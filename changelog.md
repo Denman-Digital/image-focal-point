@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.8
+
+- meta: transfer repo to PS&Co
+
 ## v2.3.7
 
 - new: integrate focal point into WPGraphQL MediaItem fields
