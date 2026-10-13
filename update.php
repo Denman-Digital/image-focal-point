@@ -13,7 +13,7 @@ use function Denman_Utils\v2\mini_markdown_parse;
 
 class Image_Focal_Point_Update
 {
-	private static $instance = null;
+	private static Image_Focal_Point_Update|null $instance = null;
 
 	private $repo_version_branch = "main";
 
@@ -23,7 +23,7 @@ class Image_Focal_Point_Update
 
 	private function __construct()
 	{
-		$this->remote_plugin_endpoint_base = "https://raw.githubusercontent.com/Denman-Digital/image-focal-point/{$this->repo_version_branch}/";
+		$this->remote_plugin_endpoint_base = "https://raw.githubusercontent.com/psddb/image-focal-point/{$this->repo_version_branch}/";
 		add_filter("update_plugins_image-focal-point", [$this, "update_plugins_image_focal_point_data"], 10, 1);
 		add_filter("pre_set_site_transient_update_plugins", [$this, "modify_plugins_transient"], 10, 1);
 		add_filter("plugins_api", [$this, "modify_plugin_details"], 99999, 3);
@@ -50,7 +50,7 @@ class Image_Focal_Point_Update
 			"version" => $remote_plugin_data["Version"],
 			"new_version" => $remote_plugin_data["Version"],
 			"url" => $remote_plugin_data["PluginURI"],
-			"package" => "https://github.com/Denman-Digital/image-focal-point/archive/{$this->repo_version_branch}.zip",
+			"package" => "https://github.com/psddb/image-focal-point/archive/{$this->repo_version_branch}.zip",
 			"requires" => $remote_plugin_data["RequiresWP"],
 			"require_php" => $remote_plugin_data["RequiresPHP"],
 			"author" => $remote_plugin_data["Author"],
@@ -138,7 +138,7 @@ class Image_Focal_Point_Update
 
 		$changelog = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url("https://github.com/Denman-Digital/image-focal-point/releases"),
+			esc_url("https://github.com/psddb/image-focal-point/releases"),
 			__("Full list of releases", "image-focal-point")
 		);
 
@@ -151,7 +151,7 @@ class Image_Focal_Point_Update
 			'installation' => sprintf(
 				// translators: %s: link URL
 				__('<a href="%s" download>Download the latest release from GitHub</a>, and either install it through the Add New Plugins page in the WordPress admin, or manually extract the contents into your WordPress installations plugin folder.', "img-focal-point"),
-				esc_url("https://github.com/Denman-Digital/image-focal-point/archive/{$this->repo_version_branch}.zip")
+				esc_url("https://github.com/psddb/image-focal-point/archive/{$this->repo_version_branch}.zip")
 			),
 			'changelog' => $changelog,
 		];

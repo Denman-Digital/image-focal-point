@@ -1,16 +1,19 @@
 {
-	"name": "denmandigital/image-focal-point",
+	"name": "psddb/image-focal-point",
 	"description": "Set background focus position for media images.",
 	"type": "project",
 	"authors": [
 		{
-			"name": "Paul Walton",
-			"email": "paul@denmandigital.com"
+			"name": "Paul Walton"
+		},
+		{
+			"name": "PS & Co",
+			"email": "devops@psandco.ca"
 		}
 	],
 	"require": {
 		"php": ">=8.1",
-		"denman-digital/wp-utils": "^2.0"
+		"psddb/wp-utils": "^2.0"
 	},
 	"require-dev": {
 		"php-stubs/wordpress-stubs": "^6.6",
@@ -19,7 +22,7 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/Denman-Digital/wp-utils"
+			"url": "https://github.com/psddb/wp-utils"
 		}
 	],
 	"scripts": {

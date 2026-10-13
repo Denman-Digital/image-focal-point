@@ -2,11 +2,11 @@
 
  /**
  * Plugin Name: Image Focal Point
- * Plugin URI: https://github.com/Denman-Digital/image-focal-point
+ * Plugin URI: https://github.com/psddb/image-focal-point
  * Update URI: image-focal-point
  * Description: Set background focus position for media images.
- * Author: Denman Digital
- * Author URI: https://denman.digital/
+ * Author: PS & Co
+ * Author URI: https://psandco.ca/
  * Version: 2.3.7
  * Tested up to: 6.8
  * Requires at least: 6.0

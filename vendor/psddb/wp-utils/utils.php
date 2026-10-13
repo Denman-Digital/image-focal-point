@@ -11,7 +11,10 @@ namespace Denman_Utils\v2;
 use ArrayObject;
 use DateTime;
 use InvalidArgumentException;
+use LengthException;
+use WP_Block;
 use WP_Post;
+use WP_Post_Type;
 use WP_Query;
 use WP_Term;
 use WP_Taxonomy;
@@ -24,7 +27,7 @@ defined('ABSPATH') || exit; // Exit if accessed directly.
  * @param mixed $var
  * @return mixed
  */
-function pass_through($var)
+function pass_through(mixed $var): mixed
 {
 	return $var;
 }
@@ -37,12 +40,12 @@ function pass_through($var)
  * @param mixed $var
  * @return bool
  */
-function is_not_null($var): bool
+function is_not_null(mixed $var): bool
 {
 	return isset($var);
 }
 
-function not_empty($var): bool
+function not_empty(mixed $var): bool
 {
 	return !empty($var);
 }
@@ -138,7 +141,7 @@ function str_bookend(string $str, string $bookend): string
  * @since 1.0.0
  * @param string $str Subject.
  * @param string $prefix Substring to look for/remove from start.
- * @param int $max Optional. Max number of times to unperfix, <0 means no limit. Default -1.
+ * @param int $max Optional. Max number of times to unprefix, <0 means no limit. Default -1.
  * @return string
  */
 function str_unprefix(string $str, string $prefix, int $max = -1): string
@@ -147,6 +150,7 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
 	$count = 0;
 	while ($prefix && ($max === -1 || $count < $max) && \str_starts_with($str, $prefix)) {
 		$str = substr($str, strlen($prefix));
+		$count++;
 	}
 	return $str;
 }
@@ -156,7 +160,7 @@ function str_unprefix(string $str, string $prefix, int $max = -1): string
  *
  * @since 1.0.0
  * @param string $str Subject.
- * @param string $prefix Substring to look for/remove from end.
+ * @param string $postfix Substring to look for/remove from end.
  * @param int $max Optional. Max number of times to unpostfix, <0 means no limit. Default -1.
  * @return string
  */
@@ -166,6 +170,7 @@ function str_unpostfix(string $str, string $postfix, int $max = -1): string
 	$count = 0;
 	while ($postfix && ($max === -1 || $count < $max) && \str_ends_with($str, $postfix)) {
 		$str = substr($str, 0, -strlen($postfix));
+		$count++;
 	}
 	return $str;
 }
@@ -224,7 +229,7 @@ function str_quote(string $str): string
  * @uses str_bookend
  * @since 1.0.0
  * @param string $format Format string.
- * @param string[]|object Array of search/replace pairs, or object with public non-static properties
+ * @param string[]|object $pairs Array of search/replace pairs, or object with public non-static properties
  * @return string
  */
 function sprintf_keys(string $format, $pairs): string
@@ -906,14 +911,15 @@ function fallback_progression(callable $validation_callback, ...$progressive_cal
  *
  * @uses get_post_by_slug
  * @since 1.0.0
+ * @since 2.0.5 Explicitly returns null when resolution fails.
  * @param WP_Post|int|string $post Optional. Variable to be resolved to a post, by ID or slug.
  * @param ?string $post_type Optional. Desired post type, or "any".
  * @return WP_Post|null
  */
-function resolve_post($post = null, string $post_type = "")
+function resolve_post($post = null, string $post_type = ""): ?WP_Post
 {
 	if (empty($post)) {
-		return $GLOBALS['post'] ?? null;
+		$post = $GLOBALS['post'] ?? null;
 	}
 	switch (gettype($post)) {
 		case 'integer': // Find by ID
@@ -926,6 +932,7 @@ function resolve_post($post = null, string $post_type = "")
 	if (is_a($post, 'WP_Post') && (!$post_type || in_array($post_type, [$post->post_type, "any", ""]))) {
 		return $post;
 	}
+	return null;
 }
 
 /**
@@ -988,6 +995,22 @@ function get_post_descendants($post = null, int $depth = -1, bool $check_post_ty
 		}
 	}
 	return $descendants;
+}
+
+/**
+ * Check if a post is an ancestor to the current post.
+ * @since 2.0.6
+ * @param WP_Post|int $maybe_parent Target parent post.
+ * @param WP_Post|int $maybe_child Target post, defaults to global $post.
+ * @return bool
+ */
+function is_child_of(WP_Post|int $maybe_parent, WP_Post|int $maybe_child = 0): bool
+{
+	$maybe_parent_id = resolve_post($maybe_parent)?->ID;
+	$maybe_child_id = resolve_post($maybe_child)?->ID;
+	if (!$maybe_parent_id || !$maybe_child_id || $maybe_parent_id === $maybe_child_id) return false;
+	$ancestor_ids = get_post_ancestors($maybe_child_id);
+	return in_array($maybe_parent_id, $ancestor_ids);
 }
 
 /**
@@ -1179,7 +1202,7 @@ function get_asset_path(string ...$segments): string
  *
  * @since 1.0.0
  * @uses get_asset_path
- * @param string[]|string ...$segments A series or array of path segments.
+ * @param string[]|string ...$path_segments A series or array of path segments.
  * @return string
  */
 function get_asset_contents(string ...$path_segments): string
@@ -1337,6 +1360,17 @@ function camel_case(string $str): string
 	return lcfirst(pascal_case($str));
 }
 
+/**
+ * Strip all non-numeric characters from a string.
+ * @since 2.0.6
+ * @param string $str
+ * @return string
+ */
+function strip_non_numeric_chars(string $str): string
+{
+	return preg_replace('/[^0-9]/', '', $str);
+}
+
 /** Get an array of registered public custom taxonomies.
  *
  * * Be sure to only call AFTER your custom taxonomies have been registered
@@ -1470,8 +1504,8 @@ function flatten_blocklist(array $blocklist): array
 {
 	return array_reduce($blocklist, function ($carry, $item) {
 		$carry[] = $item;
-		if (!empty($item["innerBlocks"])) {
-			$carry = array_merge($carry, flatten_blocklist($item["innerBlocks"]));
+		if (!empty($item->innerBlocks)) {
+			$carry = array_merge($carry, flatten_blocklist($item->innerBlocks));
 		}
 		return $carry;
 	}, []);
@@ -1770,7 +1804,7 @@ function hex_str_to_rgba_array(string $hex_color, float $alpha_fallback = 1.0): 
 /**
  * Get an array of RGBA values from an RGBA color string.
  * @since 1.1.0
- * @param string $hex_color
+ * @param string $rgba_str
  * @return array
  */
 function rgba_str_to_rgba_array(string $rgba_str): array
@@ -2094,4 +2128,22 @@ function render_wp_block_spacing(array $values): string
 		}
 	}
 	return implode(" ", $output);
+}
+
+/**
+ * Trigger a 404
+ * You probably want to trigger this following appropriate logic during the `template_redirect` hook
+ * @since 2.0.6
+ * @return never
+ */
+function wp_404_and_exit(): never
+{
+	global $wp_query, $current_template;
+	$wp_query->set_404(); // Tells WordPress this is a 404
+	$current_template = get_query_template('404'); // Set the template to 404
+	status_header(404); // Sends the correct HTTP 404 status code
+	nocache_headers(); // Prevents caching of the 404 page
+	// This includes the 404.php template file from your theme
+	include($current_template);
+	exit; // Stops further execution of the standard page
 }

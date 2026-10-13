@@ -1,18 +1,18 @@
 {
     "packages": [
         {
-            "name": "denman-digital/wp-utils",
-            "version": "2.0.4",
-            "version_normalized": "2.0.4.0",
+            "name": "psddb/wp-utils",
+            "version": "2.0.7",
+            "version_normalized": "2.0.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Denman-Digital/wp-utils.git",
-                "reference": "f81c860ecac6f8ae383c32a2165de0f2e5fc9a00"
+                "url": "https://github.com/psddb/wp-utils.git",
+                "reference": "c7cf4aa20afef58709fae12a3f6447efd92a9bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Denman-Digital/wp-utils/zipball/f81c860ecac6f8ae383c32a2165de0f2e5fc9a00",
-                "reference": "f81c860ecac6f8ae383c32a2165de0f2e5fc9a00",
+                "url": "https://api.github.com/repos/psddb/wp-utils/zipball/c7cf4aa20afef58709fae12a3f6447efd92a9bc8",
+                "reference": "c7cf4aa20afef58709fae12a3f6447efd92a9bc8",
                 "shasum": ""
             },
             "require": {
@@ -22,9 +22,9 @@
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
                 "php-stubs/acf-pro-stubs": "^6",
-                "php-stubs/wordpress-stubs": "^6.6"
+                "php-stubs/wordpress-stubs": "^7.1"
             },
-            "time": "2025-06-04T23:31:07+00:00",
+            "time": "2026-10-09T17:36:36+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -43,21 +43,21 @@
             "authors": [
                 {
                     "name": "Contributors",
-                    "homepage": "https://github.com/denman-digital/wp-utils/graphs/contributors"
+                    "homepage": "https://github.com/psddb/wp-utils/graphs/contributors"
                 }
             ],
             "description": "PHP utilities for WordPress development.",
-            "homepage": "https://github.com/denman-digital/wp-utils",
+            "homepage": "https://github.com/psddb/wp-utils",
             "keywords": [
                 "Plugin",
                 "Theme",
                 "WordPress"
             ],
             "support": {
-                "issues": "https://github.com/denman-digital/wp-utils/issues",
-                "source": "https://github.com/denman-digital/wp-utils"
+                "issues": "https://github.com/psddb/wp-utils/issues",
+                "source": "https://github.com/psddb/wp-utils"
             },
-            "install-path": "../denman-digital/wp-utils"
+            "install-path": "../psddb/wp-utils"
         }
     ],
     "dev": false,

@@ -3,13 +3,13 @@
 	"displayName": "Image Focal Point",
 	"version": "2.3.7",
 	"private": true,
-	"author": "Denman Digital",
+	"author": "PS & Co",
 	"description": "Set background focus position for media images in WordPress.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Denman-Digital/image-focal-point"
+		"url": "https://github.com/psddb/image-focal-point"
 	},
-	"homepage": "https://github.com/Denman-Digital/image-focal-point#readme",
+	"homepage": "https://github.com/psddb/image-focal-point#readme",
 	"browserslist": [
 		"cover 99.5% in CA and >= 0.1% in CA",
 		">= 1% and not dead",

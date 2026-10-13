@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit8ecb5be0a2feaea9a691a7e201f8a26b
 {
     public static $files = array (
-        'c257f8e6c6fd01559b7437f250cb4044' => __DIR__ . '/..' . '/denman-digital/wp-utils/utils.php',
+        'd6a2a4d53102d82ebe80e0ac40a44068' => __DIR__ . '/..' . '/psddb/wp-utils/utils.php',
     );
 
     public static $classMap = array (

@@ -1,5 +1,5 @@
 === Image Focal Point ===
-Contributors: paulthewalton
+Contributors: PS & Co
 Tags: image,img,focus,focal,point
 Requires at least: 6.0
 Tested up to: 6.8

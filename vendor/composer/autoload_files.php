@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'c257f8e6c6fd01559b7437f250cb4044' => $vendorDir . '/denman-digital/wp-utils/utils.php',
+    'd6a2a4d53102d82ebe80e0ac40a44068' => $vendorDir . '/psddb/wp-utils/utils.php',
 );

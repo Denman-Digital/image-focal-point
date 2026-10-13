@@ -21,7 +21,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: plugin.php
-msgid "https://github.com/Denman-Digital/image-focal-point"
+msgid "https://github.com/psddb/image-focal-point"
 msgstr ""
 
 #. Description of the plugin
